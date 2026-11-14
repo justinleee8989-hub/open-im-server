@@ -1646,6 +1646,11 @@ func (g *groupServer) SetGroupMemberInfo(ctx context.Context, req *pbgroup.SetGr
 		case 0:
 			if !isAppManagerUid {
 				roleLevel := dbMembers[opUserIndex].RoleLevel
+				for _, member := range members {
+					if !canUpdateMemberRole(roleLevel, member.RoleLevel != nil) {
+						return nil, errs.ErrNoPermission.WrapMsg("only group owner can assign member roles")
+					}
+				}
 				var (
 					dbSelf  = &model.GroupMember{}
 					reqSelf *pbgroup.SetGroupMemberInfo
