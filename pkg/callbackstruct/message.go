@@ -86,6 +86,11 @@ type CallbackGroupMsgReadReq struct {
 	ReceiveID       string `json:"receiveID"`
 	UnreadMsgNum    int64  `json:"unreadMsgNum"`
 	ContentType     int64  `json:"contentType"`
+	// Which group conversation was read and how far: without them a receiver
+	// cannot tell whose messages the read position now covers.
+	ConversationID string `json:"conversationID"`
+	GroupID        string `json:"groupID"`
+	HasReadSeq     int64  `json:"hasReadSeq"`
 }
 
 type CallbackGroupMsgReadResp struct {

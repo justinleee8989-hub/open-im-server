@@ -208,10 +208,13 @@ func (m *msgServer) MarkConversationAsRead(ctx context.Context, req *msg.MarkCon
 		m.webhookAfterSingleMsgRead(ctx, &m.config.WebhooksConfig.AfterSingleMsgRead, reqCall)
 	} else if conversation.ConversationType == constant.ReadGroupChatType {
 		reqCall := &cbapi.CallbackGroupMsgReadReq{
-			SendID:       conversation.OwnerUserID,
-			ReceiveID:    req.UserID,
-			UnreadMsgNum: req.HasReadSeq,
-			ContentType:  int64(conversation.ConversationType),
+			SendID:         conversation.OwnerUserID,
+			ReceiveID:      req.UserID,
+			UnreadMsgNum:   req.HasReadSeq,
+			ContentType:    int64(conversation.ConversationType),
+			ConversationID: conversation.ConversationID,
+			GroupID:        conversation.GroupID,
+			HasReadSeq:     hasReadSeq,
 		}
 		m.webhookAfterGroupMsgRead(ctx, &m.config.WebhooksConfig.AfterGroupMsgRead, reqCall)
 	}
